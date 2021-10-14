@@ -31,8 +31,6 @@ let workDir = "."
  */
 let requireList = {}
 let outStr
-// const used = []
-// const unused = []
 
 /**
  * @param {fs.PathLike} mainPath
@@ -73,6 +71,9 @@ function recurseFiles(name) {
     }
 }
 
+
+// var used = []
+// var unused = []
 function findUnusedFiles(dir, list, dirbase) {
     if (dirbase === undefined) {
         dirbase = ""
@@ -89,10 +90,7 @@ function findUnusedFiles(dir, list, dirbase) {
                 const key = dirbase + base
                 if (requireList[key] === undefined) {
                     list.push(key)
-                }
-                //  else {
-                //     used.push(key)
-                // }
+                } 
             }
         } else if (st.isDirectory()) {
             findUnusedFiles(full, list, dirbase + path.basename(file))
@@ -106,6 +104,7 @@ function findUnusedFiles(dir, list, dirbase) {
  * @param {fs.PathLike} mainPath
  * @returns {string}
  */
+
 function emitCode(mainPath) {
     if (!fs.existsSync(mainPath) || !fs.statSync(mainPath).isFile()) {
         logger.error(`File not found ${mainPath}`)
@@ -117,7 +116,6 @@ function emitCode(mainPath) {
     recurseFiles(mainName)
     const unused = []
     findUnusedFiles(workDir, unused)
-    
     logger.warn("Unused files : " + unused.length + " 개")
     return outStr + `\n__modules["${mainName}"].loader()`
 }
@@ -193,16 +191,17 @@ function toFile(mainPath, outPath, mode) {
     requireList = {}
 }
 
-// function status(mainPath) {
-//     var res = []
-//     res.used = used
-//     res.unused = unused
-//     findUnusedFiles(res)
-//     return res
-// }
+function status(mainPath) {
+    workDir = path.dirname(mainPath)
+    var unused = []
+    findUnusedFiles(workDir, unused)
+    // console.log(un)
+    
+    return unused
+}
 
 module.exports = {
     injectWC3,
     toFile,
-    // status
+    status
 }
