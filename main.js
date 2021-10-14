@@ -31,8 +31,8 @@ let workDir = "."
  */
 let requireList = {}
 let outStr
-const used = []
-const unused = []
+// const used = []
+// const unused = []
 
 /**
  * @param {fs.PathLike} mainPath
@@ -89,9 +89,10 @@ function findUnusedFiles(dir, list, dirbase) {
                 const key = dirbase + base
                 if (requireList[key] === undefined) {
                     list.push(key)
-                } else {
-                    used.push(key)
                 }
+                //  else {
+                //     used.push(key)
+                // }
             }
         } else if (st.isDirectory()) {
             findUnusedFiles(full, list, dirbase + path.basename(file))
@@ -192,16 +193,16 @@ function toFile(mainPath, outPath, mode) {
     requireList = {}
 }
 
-function status(mainPath) {
-    var res = []
-    res.used = used
-    res.unused = unused
-    findUnusedFiles(res)
-    return res
-}
+// function status(mainPath) {
+//     var res = []
+//     res.used = used
+//     res.unused = unused
+//     findUnusedFiles(res)
+//     return res
+// }
 
 module.exports = {
     injectWC3,
     toFile,
-    status
+    // status
 }
