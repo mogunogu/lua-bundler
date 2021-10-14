@@ -192,10 +192,11 @@ function toFile(mainPath, outPath, mode) {
     requireList = {}
 }
 
-function status() {
+function status(mainPath) {
     var res = []
     res.used = used
     res.unused = unused
+    findUnusedFiles(res)
     return res
 }
 
